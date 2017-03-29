@@ -1,5 +1,7 @@
 <?php
 
+use \Jacwright\RestServer\RestException;
+
 class TestController
 {
     /**
@@ -21,7 +23,7 @@ class TestController
     public function login()
     {
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $password = $_POST['password']; //@todo remove since it is not needed anywhere
         return array("success" => "Logged in " . $username);
     }
 
@@ -55,5 +57,28 @@ class TestController
         // $user = User::saveUser($data); // saving the user to the database
         $user = array("id" => $id, "name" => null);
         return $user; // returning the updated or newly created user object
+    }
+
+    /**
+     * Get Charts
+     * 
+     * @url GET /charts
+     * @url GET /charts/$id
+     * @url GET /charts/$id/$date
+     * @url GET /charts/$id/$date/$interval/
+     * @url GET /charts/$id/$date/$interval/$interval_months
+     */
+    public function getCharts($id=null, $date=null, $interval = 30, $interval_months = 12)
+    {
+        echo "$id, $date, $interval, $interval_months";
+    }
+
+    /**
+     * Throws an error
+     * 
+     * @url GET /error
+     */
+    public function throwError() {
+        throw new RestException(401, "Empty password not allowed");
     }
 }
